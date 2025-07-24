@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrifa Susu Enterprise - Account Batch</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Afrifa Susu Enterprise</h2>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User</span>
+                    <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <span id="currentDate" class="nav-date"></span>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="nav-icon">📊</i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">👥</i>
+                        Customer File
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="individual-customers.html" class="dropdown-link">Individual</a>
+                        <a href="corporate-customers.html" class="dropdown-link">Corporate</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">🔍</i>
+                        Add Account Enquiry
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-enquiry.html" class="dropdown-link">Individual</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">
+                        <i class="nav-icon">📝</i>
+                        Batch Posting
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu show">
+                        <a href="account-batch.html" class="dropdown-link active">Account Batch</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Account Batch</h1>
+                <div class="breadcrumb">
+                    <span>Home</span> > <span>Batch Posting</span> > <span>Account Batch</span>
+                </div>
+            </div>
+            
+            <div class="page-content">
+                <!-- Excel-like Batch Entry Interface -->
+                <div class="batch-entry-section">
+                    <div class="entry-header">
+                        <h2>Account Batch Entry</h2>
+                        <div class="entry-info">
+                            <span class="info-text">Press F2 to search for customers | Enter to confirm entry | Tab to move between fields</span>
+                        </div>
+                    </div>
+                    
+                    <div class="batch-entry-table">
+                        <table id="batchEntryTable" class="excel-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">Line</th>
+                                    <th style="width: 200px;">Customer Name</th>
+                                    <th style="width: 150px;">Account Number</th>
+                                    <th style="width: 200px;">Account Name</th>
+                                    <th style="width: 120px;">Deposit Amount</th>
+                                    <th style="width: 120px;">Current Balance</th>
+                                    <th style="width: 100px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchEntryBody">
+                                <!-- Dynamic rows will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="batch-controls">
+                        <button class="btn-secondary" onclick="addNewRow()">Add Row</button>
+                        <button class="btn-primary" onclick="saveBatch()">Save Batch</button>
+                        <button class="btn-secondary" onclick="clearBatch()">Clear All</button>
+                        <span class="batch-total">Total Entries: <span id="totalEntries">0</span></span>
+                    </div>
+                </div>
+                
+                <!-- Customer Search Modal -->
+                <div id="customerSearchModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Search Customer</h3>
+                            <span class="close" onclick="closeSearchModal()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="search-box">
+                                <input type="text" id="customerSearchInput" placeholder="Search by name, phone, or account number..." onkeyup="searchCustomers()">
+                            </div>
+                            <div class="search-results">
+                                <table id="searchResultsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Account Number</th>
+                                            <th>Balance</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="searchResultsBody">
+                                        <tr class="no-results">
+                                            <td colspan="5">Start typing to search customers...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transaction History Section -->
+                <div class="batch-history-section">
+                    <div class="table-header">
+                        <h2>Batch Transaction History</h2>
+                        <div class="filter-controls">
+                            <select id="filterDate">
+                                <option value="all">All Dates</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="batch-table">
+                        <table id="batchHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Customer Name</th>
+                                    <th>Account Number</th>
+                                    <th>Account Name</th>
+                                    <th>Amount</th>
+                                    <th>New Balance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchHistoryBody">
+                                <tr class="no-data-row">
+                                    <td colspan="7">No transaction history available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="debug-analyzer.js"></script>
+    <script src="account-batch.js"></script>
+</body>
+</html>

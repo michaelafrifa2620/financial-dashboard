@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Financial Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">
+            <i class="fas fa-tachometer-alt me-2"></i>Financial Dashboard
+            <span class="text-muted fs-6">Welcome back, {{ session.username }}!</span>
+        </h2>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card income-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="text-muted mb-1">Total Income</h6>
+                        <h3 class="text-success mb-0">${{ "%.2f"|format(income) }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-arrow-up fa-2x text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card stat-card expense-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="text-muted mb-1">Total Expenses</h6>
+                        <h3 class="text-danger mb-0">${{ "%.2f"|format(expenses) }}</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-arrow-down fa-2x text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card stat-card balance-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="text-muted mb-1">Net Balance</h6>
+                        <h3 class="{% if balance >= 0 %}text-success{% else %}text-danger{% endif %} mb-0">
+                            ${{ "%.2f"|format(balance) }}
+                        </h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-balance-scale fa-2x text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Add Transaction Form -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus me-2"></i>Add Transaction</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_transaction') }}">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Select Category</option>
+                            <optgroup label="Income">
+                                <option value="Salary">Salary</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Investment">Investment</option>
+                                <option value="Other Income">Other Income</option>
+                            </optgroup>
+                            <optgroup label="Expenses">
+                                <option value="Housing">Housing</option>
+                                <option value="Food">Food</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Other Expense">Other Expense</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add Transaction
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Monthly Chart -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-chart-bar me-2"></i>Monthly Overview</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Transactions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list me-2"></i>Recent Transactions</h5>
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.date.strftime('%Y-%m-%d %H:%M') if transaction.date else 'N/A' }}</td>
+                                    <td>
+                                        <span class="badge {% if transaction.type == 'income' %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ transaction.type.title() }}
+                                        </span>
+                                    </td>
+                                    <td>{{ transaction.description }}</td>
+                                    <td>{{ transaction.category }}</td>
+                                    <td class="{% if transaction.type == 'income' %}text-success{% else %}text-danger{% endif %}">
+                                        {% if transaction.type == 'income' %}+{% else %}-{% endif %}${{ "%.2f"|format(transaction.amount) }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No transactions yet. Add your first transaction above!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Monthly Chart
+const ctx = document.getElementById('monthlyChart').getContext('2d');
+const monthlyData = {{ monthly_data|tojson }};
+
+const labels = monthlyData.map(item => item.month).reverse();
+const incomeData = monthlyData.map(item => item.income).reverse();
+const expenseData = monthlyData.map(item => item.expense).reverse();
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Income',
+            data: incomeData,
+            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            borderColor: 'rgba(16, 185, 129, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Expenses',
+            data: expenseData,
+            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+            borderColor: 'rgba(239, 68, 68, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Update category options based on transaction type
+document.getElementById('type').addEventListener('change', function() {
+    const categorySelect = document.getElementById('category');
+    const type = this.value;
+    
+    // Reset category selection
+    categorySelect.selectedIndex = 0;
+    
+    // Show/hide appropriate options
+    const options = categorySelect.querySelectorAll('option');
+    options.forEach(option => {
+        if (option.value === '') return; // Keep the default option
+        
+        const optgroup = option.parentElement;
+        if (type === 'income' && optgroup.label === 'Income') {
+            option.style.display = 'block';
+        } else if (type === 'expense' && optgroup.label === 'Expenses') {
+            option.style.display = 'block';
+        } else {
+            option.style.display = 'none';
+        }
+    });
+});
+
+// Initialize category options
+document.getElementById('type').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2><i class="fas fa-chart-line me-2"></i>Welcome to Financial Dashboard</h2>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <p class="lead">Manage your finances with ease. Track income, expenses, and monitor your financial health.</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-wallet fa-3x text-primary mb-3"></i>
+                                <h5>Track Expenses</h5>
+                                <p class="text-muted">Monitor your spending across different categories</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-bar fa-3x text-success mb-3"></i>
+                                <h5>Analyze Income</h5>
+                                <p class="text-muted">Keep track of all your income sources</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-pie fa-3x text-warning mb-3"></i>
+                                <h5>Visual Reports</h5>
+                                <p class="text-muted">Get insights with beautiful charts and graphs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                    </a>
+                </div>
+                
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6><i class="fas fa-info-circle me-2"></i>Demo Account</h6>
+                    <p class="mb-0">Try the demo account with sample data:</p>
+                    <p class="mb-0"><strong>Username:</strong> demo</p>
+                    <p class="mb-0"><strong>Password:</strong> demo123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

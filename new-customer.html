@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrifa Susu Enterprise - New Customer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Afrifa Susu Enterprise</h2>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User</span>
+                    <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <span id="currentDate" class="nav-date"></span>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="nav-icon">📊</i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">
+                        <i class="nav-icon">👥</i>
+                        Customer File
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu show">
+                        <a href="individual-customers.html" class="dropdown-link active">Individual</a>
+                        <a href="corporate-customers.html" class="dropdown-link">Corporate</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">🔍</i>
+                        Add Account Enquiry
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-enquiry.html" class="dropdown-link">Individual</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">📝</i>
+                        Batch Posting
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-batch.html" class="dropdown-link">Account Batch</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>New Customer Registration</h1>
+                <div class="breadcrumb">
+                    <span>Home</span> > <span>Customer File</span> > <span>Individual</span> > <span>New Customer</span>
+                </div>
+            </div>
+            
+            <div class="page-content">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>Customer Details</h2>
+                        <p>Please fill in all required information to register a new customer</p>
+                    </div>
+                    
+                    <form id="newCustomerForm" class="customer-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="gender">Gender *</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="maritalStatus">Marital Status *</label>
+                                <select id="maritalStatus" name="maritalStatus" required>
+                                    <option value="">Select Status</option>
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group date-group">
+                                <label>Date of Birth *</label>
+                                <div class="date-inputs">
+                                    <select id="birthYear" name="birthYear" required>
+                                        <option value="">Year</option>
+                                    </select>
+                                    <select id="birthMonth" name="birthMonth" required>
+                                        <option value="">Month</option>
+                                        <option value="01">January</option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <select id="birthDay" name="birthDay" required>
+                                        <option value="">Day</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="citizenship">Citizenship *</label>
+                                <select id="citizenship" name="citizenship" required>
+                                    <option value="">Select Citizenship</option>
+                                    <option value="ghanaian">Ghanaian</option>
+                                    <option value="non-ghanaian">Non-Ghanaian</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="hometown">Hometown *</label>
+                                <input type="text" id="hometown" name="hometown" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+233...">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="address">Address</label>
+                                <textarea id="address" name="address" rows="3" placeholder="Enter full address..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="window.history.back()">Cancel</button>
+                            <button type="reset" class="btn-secondary">Clear Form</button>
+                            <button type="submit" class="btn-primary">Register Customer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="new-customer.js"></script>
+</body>
+</html>

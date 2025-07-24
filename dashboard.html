@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrifa Susu Enterprise - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Afrifa Susu Enterprise</h2>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User</span>
+                    <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <span id="currentDate" class="nav-date"></span>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="nav-icon">📊</i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">👥</i>
+                        Customer File
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="individual-customers.html" class="dropdown-link">Individual</a>
+                        <a href="corporate-customers.html" class="dropdown-link">Corporate</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">🔍</i>
+                        Add Account Enquiry
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-enquiry.html" class="dropdown-link">Individual</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">📝</i>
+                        Batch Posting
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-batch.html" class="dropdown-link">Account Batch</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Dashboard Overview</h1>
+                <div class="breadcrumb">
+                    <span>Home</span> > <span>Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>Total Customers</h3>
+                            <div class="stat-number" id="totalCustomers">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🏦</div>
+                        <div class="stat-info">
+                            <h3>Active Accounts</h3>
+                            <div class="stat-number" id="activeAccounts">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h3>Total Deposits</h3>
+                            <div class="stat-number" id="totalDeposits">₵0.00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <h3>Today's Transactions</h3>
+                            <div class="stat-number" id="todayTransactions">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-widgets">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Recent Activities</h3>
+                        </div>
+                        <div class="widget-content">
+                            <div class="activity-list" id="recentActivities">
+                                <p class="no-data">No recent activities</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="widget-content">
+                            <div class="quick-actions">
+                                <a href="new-customer.html" class="action-btn">
+                                    <i class="action-icon">➕</i>
+                                    Add New Customer
+                                </a>
+                                <a href="account-enquiry.html" class="action-btn">
+                                    <i class="action-icon">🔍</i>
+                                    Account Enquiry
+                                </a>
+                                <a href="account-batch.html" class="action-btn">
+                                    <i class="action-icon">📊</i>
+                                    Batch Posting
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>

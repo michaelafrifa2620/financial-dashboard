@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrifa Susu Enterprise - Account Enquiry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Afrifa Susu Enterprise</h2>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User</span>
+                    <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <span id="currentDate" class="nav-date"></span>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="nav-icon">📊</i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">👥</i>
+                        Customer File
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="individual-customers.html" class="dropdown-link">Individual</a>
+                        <a href="corporate-customers.html" class="dropdown-link">Corporate</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">
+                        <i class="nav-icon">🔍</i>
+                        Add Account Enquiry
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu show">
+                        <a href="account-enquiry.html" class="dropdown-link active">Individual</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">📝</i>
+                        Batch Posting
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-batch.html" class="dropdown-link">Account Batch</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Account Enquiry - Individual</h1>
+                <div class="breadcrumb">
+                    <span>Home</span> > <span>Add Account Enquiry</span> > <span>Individual</span>
+                </div>
+            </div>
+            
+            <div class="page-content">
+                <div class="enquiry-section">
+                    <div class="search-customer">
+                        <div class="search-header">
+                            <h2>Search Customer</h2>
+                            <p>Search for an existing customer to generate an account number</p>
+                        </div>
+                        
+                        <div class="search-form">
+                            <div class="search-input-group">
+                                <input type="text" id="customerSearchInput" placeholder="Enter customer name, ID, or phone number...">
+                                <button class="search-btn" onclick="searchCustomerForAccount()">
+                                    <i class="search-icon">🔍</i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="search-results" id="searchResults" style="display: none;">
+                            <div class="results-header">
+                                <h3>Search Results</h3>
+                            </div>
+                            <div class="results-list" id="customerResults">
+                                <!-- Search results will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="account-generation" id="accountSection" style="display: none;">
+                        <div class="account-header">
+                            <h2>Generate Account Number</h2>
+                            <p>Customer found! Generate a new account number for this customer.</p>
+                        </div>
+                        
+                        <div class="customer-info" id="selectedCustomerInfo">
+                            <!-- Selected customer info will be displayed here -->
+                        </div>
+                        
+                        <div class="account-form">
+                            <div class="form-group">
+                                <label for="accountType">Account Type</label>
+                                <select id="accountType" name="accountType" required>
+                                    <option value="">Select Account Type</option>
+                                    <option value="savings">Savings Account</option>
+                                    <option value="current">Current Account</option>
+                                    <option value="fixed">Fixed Deposit</option>
+                                    <option value="susu">Susu Account</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="initialDeposit">Initial Deposit Amount (₵)</label>
+                                <input type="number" id="initialDeposit" name="initialDeposit" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                            
+                            <div class="account-number-display">
+                                <label>Generated Account Number</label>
+                                <div class="account-number" id="generatedAccountNumber">
+                                    <span class="account-placeholder">Click "Generate Account" to create account number</span>
+                                </div>
+                                <button class="generate-btn" onclick="generateAccountNumber()">
+                                    <i class="generate-icon">🎲</i>
+                                    Generate Account Number
+                                </button>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary" onclick="clearAccountSection()">Clear</button>
+                                <button type="button" class="btn-primary" onclick="createAccount()" id="createAccountBtn" disabled>
+                                    Create Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-accounts">
+                        <div class="accounts-header">
+                            <h3>Recently Created Accounts</h3>
+                        </div>
+                        <div class="accounts-table">
+                            <table id="recentAccountsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Account Number</th>
+                                        <th>Customer Name</th>
+                                        <th>Account Type</th>
+                                        <th>Initial Deposit</th>
+                                        <th>Date Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentAccountsBody">
+                                    <tr class="no-data-row">
+                                        <td colspan="5">No accounts created yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="account-enquiry.js"></script>
+</body>
+</html>

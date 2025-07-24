@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrifa Susu Enterprise - Individual Customers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Afrifa Susu Enterprise</h2>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User</span>
+                    <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <span id="currentDate" class="nav-date"></span>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="nav-icon">📊</i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">
+                        <i class="nav-icon">👥</i>
+                        Customer File
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu show">
+                        <a href="individual-customers.html" class="dropdown-link active">Individual</a>
+                        <a href="corporate-customers.html" class="dropdown-link">Corporate</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">🔍</i>
+                        Add Account Enquiry
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-enquiry.html" class="dropdown-link">Individual</a>
+                    </div>
+                </div>
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="nav-icon">📝</i>
+                        Batch Posting
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="account-batch.html" class="dropdown-link">Account Batch</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Individual Customers</h1>
+                <div class="breadcrumb">
+                    <span>Home</span> > <span>Customer File</span> > <span>Individual</span>
+                </div>
+            </div>
+            
+            <div class="page-content">
+                <div class="customer-actions">
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <input type="text" id="customerSearch" placeholder="Search customers by name, ID, or phone...">
+                            <button class="search-btn" onclick="searchCustomers()">
+                                <i class="search-icon">🔍</i>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="action-section">
+                        <a href="new-customer.html" class="new-customer-btn">
+                            <i class="btn-icon">➕</i>
+                            New Customer
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="customers-list">
+                    <div class="list-header">
+                        <h3>Customer List</h3>
+                        <div class="list-info">
+                            <span id="customerCount">Total: 0 customers</span>
+                        </div>
+                    </div>
+                    
+                    <div class="customers-table">
+                        <table id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Full Name</th>
+                                    <th>Gender</th>
+                                    <th>Date of Birth</th>
+                                    <th>Phone</th>
+                                    <th>Hometown</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTableBody">
+                                <tr class="no-data-row">
+                                    <td colspan="7">No customers found. Click "New Customer" to add one.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="customers.js"></script>
+</body>
+</html>
