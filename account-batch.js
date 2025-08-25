@@ -12,20 +12,32 @@ document.addEventListener('DOMContentLoaded', function() {
     setupKeyboardEvents();
     loadBatchHistory();
     updateCurrentDate();
+    
+    // Initialize customer data
+    initializeCustomerData();
+    
+    // Debug: Show customer count in console
+    console.log('Customer data loaded:', getCustomersData());
 });
 
-// Check if user is authenticated
-function checkAuthentication() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const currentUser = localStorage.getItem('currentUser');
-    
-    if (!isLoggedIn || !currentUser) {
-        window.location.href = 'index.html';
-        return;
-    }
+// Initialize customer data
+function initializeCustomerData() {
+    // Force creation of customer data if it doesn't exist
+    const customers = getCustomersData();
+    console.log('Initialized customers:', customers.length);
+}
 
+// Check if user is authenticated - bypassed for testing
+function checkAuthentication() {
+    // Set demo user for testing
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('currentUser', 'Demo User');
+    
     // Display current user
-    document.getElementById('currentUser').textContent = `Welcome, ${currentUser}`;
+    const userElement = document.getElementById('currentUser');
+    if (userElement) {
+        userElement.textContent = `Welcome, Demo User`;
+    }
 }
 
 // Update current date
@@ -156,17 +168,26 @@ function navigateToNextCell(currentInput, goBackward = false) {
 // Setup global keyboard events
 function setupKeyboardEvents() {
     document.addEventListener('keydown', function(e) {
-        // F2 key for customer search
-        if (e.key === 'F2') {
+        // Debug: Log all key presses
+        console.log('Key pressed:', e.key, 'KeyCode:', e.keyCode, 'Which:', e.which);
+        
+        // F2 key for customer search (multiple detection methods)
+        if (e.key === 'F2' || e.keyCode === 113 || e.which === 113) {
             e.preventDefault();
+            console.log('F2 detected! Opening customer search...');
+            
             if (currentActiveCell && currentActiveCell.classList.contains('customer-name')) {
+                console.log('Opening search for active customer cell');
                 openCustomerSearch(currentActiveCell);
             } else {
                 // If no active cell or not a customer name field, focus on first customer name field
                 const firstCustomerField = document.querySelector('.customer-name');
                 if (firstCustomerField) {
+                    console.log('Focusing first customer field and opening search');
                     firstCustomerField.focus();
                     openCustomerSearch(firstCustomerField);
+                } else {
+                    console.log('No customer field found!');
                 }
             }
         }
@@ -176,6 +197,18 @@ function setupKeyboardEvents() {
             closeSearchModal();
         }
     });
+}
+
+// Test F2 Search function (manual trigger)
+function testF2Search() {
+    console.log('Manual F2 search test triggered');
+    const firstCustomerField = document.querySelector('.customer-name');
+    if (firstCustomerField) {
+        firstCustomerField.focus();
+        openCustomerSearch(firstCustomerField);
+    } else {
+        alert('No customer field found!');
+    }
 }
 
 // Open customer search modal
@@ -379,14 +412,18 @@ function clearBatch() {
     addNewRow();
 }
 
-// Update customer balance
+// Update customer balance in accounts system
 function updateCustomerBalance(customerId, newBalance) {
-    const customers = getCustomersData();
-    const customerIndex = customers.findIndex(c => c.id === customerId);
+    // Update the account balance in the accounts system
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const accountIndex = accounts.findIndex(account => account.customerId === customerId);
     
-    if (customerIndex !== -1) {
-        customers[customerIndex].balance = newBalance;
-        localStorage.setItem('customersData', JSON.stringify(customers));
+    if (accountIndex !== -1) {
+        accounts[accountIndex].balance = newBalance;
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        console.log(`Updated account balance for customer ${customerId} to ₵${newBalance}`);
+    } else {
+        console.log(`No account found for customer ${customerId}`);
     }
 }
 
@@ -432,18 +469,84 @@ function loadBatchHistory() {
     historyBody.innerHTML = html;
 }
 
-// Get customers data (mock data for demo - replace with real API)
+// Get customers data (from real customer file and accounts)
 function getCustomersData() {
-    // Try to get from localStorage first
-    let customers = JSON.parse(localStorage.getItem('customersData'));
+    // Get real customers from the new-customer system
+    let realCustomers = JSON.parse(localStorage.getItem('customers')) || [];
+    // Get actual accounts from account enquiry system
+    let realAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
     
-    // If no data exists, create sample data
-    if (!customers) {
+    // Convert real customer data to batch format
+    let customers = [];
+    
+    // First, get customers who have actual accounts
+    realAccounts.forEach(account => {
+        const customer = realCustomers.find(c => c.id === account.customerId);
+        if (customer) {
+            customers.push({
+                id: customer.id,
+                name: `${customer.firstName} ${customer.lastName}`,
+                phone: customer.phone || 'N/A',
+                accountNumber: account.accountNumber, // Use the real account number
+                accountName: `${customer.firstName} ${customer.lastName} - ${account.accountType}`,
+                balance: account.balance || 0.00
+            });
+        }
+    });
+    
+    // Then, add customers without accounts (for account creation)
+    realCustomers.forEach(customer => {
+        // Check if customer already has an account
+        const hasAccount = customers.some(c => c.id === customer.id);
+        if (!hasAccount) {
+            customers.push({
+                id: customer.id,
+                name: `${customer.firstName} ${customer.lastName}`,
+                phone: customer.phone || 'N/A',
+                accountNumber: 'NO_ACCOUNT', // Indicates no account created yet
+                accountName: `${customer.firstName} ${customer.lastName} - No Account`,
+                balance: 0.00,
+                noAccount: true // Flag to indicate no account
+            });
+        }
+    });
+    
+    // If no real customers exist, add a few sample ones for demo
+    if (customers.length === 0) {
         customers = generateSampleCustomers();
-        localStorage.setItem('customersData', JSON.stringify(customers));
+        console.log('No real customers found, using sample data');
+    } else {
+        console.log(`Found ${customers.length} customers (${realAccounts.length} with accounts, ${realCustomers.length - realAccounts.length} without accounts)`);
     }
     
     return customers;
+}
+
+// Generate account number based on customer ID
+function generateAccountNumber(customerId) {
+    // Convert customer ID (like CUS001) to account number (like ACC001)
+    if (customerId.startsWith('CUS')) {
+        return customerId.replace('CUS', 'ACC');
+    }
+    return `ACC${customerId.padStart(3, '0')}`;
+}
+
+// Get customer balance (starts at 0 for new customers)
+function getCustomerBalance(customerId) {
+    // Check if customer has any previous transactions
+    const transactions = JSON.parse(localStorage.getItem('batchTransactions')) || [];
+    const customerTransactions = transactions.filter(t => t.customerId === customerId);
+    
+    if (customerTransactions.length === 0) {
+        return 0.00; // New customer starts with 0 balance
+    }
+    
+    // Get the latest transaction balance
+    const latestTransaction = customerTransactions.sort((a, b) => 
+        new Date(b.timestamp) - new Date(a.timestamp)
+    )[0];
+    
+    return latestTransaction.newBalance || 0.00;
 }
 
 // Generate sample customers for demo

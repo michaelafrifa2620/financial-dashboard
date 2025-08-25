@@ -128,6 +128,111 @@
         </main>
     </div>
     
+    <!-- Customer Details Modal -->
+    <div id="customerDetailsModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Customer Details</h3>
+                <span class="close" onclick="closeCustomerModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="customerDetailsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCustomerId">Customer ID</label>
+                            <input type="text" id="editCustomerId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDateCreated">Date Created</label>
+                            <input type="text" id="editDateCreated" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editFirstName">First Name *</label>
+                            <input type="text" id="editFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLastName">Last Name *</label>
+                            <input type="text" id="editLastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editGender">Gender *</label>
+                            <select id="editGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editMaritalStatus">Marital Status *</label>
+                            <select id="editMaritalStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDateOfBirth">Date of Birth *</label>
+                            <input type="date" id="editDateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCitizenship">Citizenship *</label>
+                            <select id="editCitizenship" required>
+                                <option value="">Select Citizenship</option>
+                                <option value="Ghanaian">Ghanaian</option>
+                                <option value="Nigerian">Nigerian</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPhone">Phone Number</label>
+                            <input type="tel" id="editPhone" placeholder="+233...">   
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email Address</label>
+                            <input type="email" id="editEmail" placeholder="example@email.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="editHometown">Hometown *</label>
+                            <input type="text" id="editHometown" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="editAddress">Address</label>
+                            <textarea id="editAddress" rows="3" placeholder="Full address..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="toggleEditMode()">Edit</button>
+                        <button type="button" class="btn-primary" id="saveCustomerBtn" onclick="saveCustomerChanges()" style="display: none;">Save Changes</button>
+                        <button type="button" class="btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display: none;">Cancel</button>
+                        <button type="button" class="btn-danger" onclick="deleteCustomer()">Delete</button>
+                        <button type="button" class="btn-secondary" onclick="closeCustomerModal()">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <script src="customers.js"></script>
 </body>
 </html>

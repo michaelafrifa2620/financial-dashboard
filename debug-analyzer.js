@@ -118,20 +118,33 @@ class FinancialDashboardDebugger {
             this.log('ERROR', '✗ localStorage is not available', e);
         }
 
-        // Check if required CSS classes exist
+        // Delay CSS class check for dynamically created elements
+        setTimeout(() => {
+            this.checkCSSClasses();
+        }, 2000); // Wait 2 seconds for dynamic content to load
+    }
+
+    // Check if required CSS classes exist (separated for delayed execution)
+    checkCSSClasses() {
+        this.log('INFO', 'Checking CSS classes...');
+        
         const requiredClasses = [
-            '.excel-table',
-            '.modal',
-            '.batch-controls',
-            '.excel-input'
+            { name: '.excel-table', dynamic: false },
+            { name: '.modal', dynamic: false },
+            { name: '.batch-controls', dynamic: false },
+            { name: '.excel-input', dynamic: true } // This is created dynamically
         ];
 
-        requiredClasses.forEach(className => {
-            const elements = document.querySelectorAll(className);
+        requiredClasses.forEach(classInfo => {
+            const elements = document.querySelectorAll(classInfo.name);
             if (elements.length > 0) {
-                this.log('INFO', `✓ CSS class '${className}' is applied to ${elements.length} element(s)`);
+                this.log('INFO', `✓ CSS class '${classInfo.name}' is applied to ${elements.length} element(s)`);
             } else {
-                this.log('WARN', `⚠ CSS class '${className}' not found in DOM`);
+                if (classInfo.dynamic) {
+                    this.log('INFO', `ℹ Dynamic CSS class '${classInfo.name}' not found yet (this is normal)`);
+                } else {
+                    this.log('WARN', `⚠ CSS class '${classInfo.name}' not found in DOM`);
+                }
             }
         });
     }

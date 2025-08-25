@@ -1923,3 +1923,112 @@ table tr:hover {
         flex-direction: column;
     }
 }
+
+/* Customer Details Modal Styles */
+.large-modal {
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+}
+
+.modal-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #2c3e50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #34495e;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-info {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #2980b9;
+}
+
+/* Form styles in modal */
+#customerDetailsForm .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#customerDetailsForm .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+#customerDetailsForm input:disabled,
+#customerDetailsForm select:disabled,
+#customerDetailsForm textarea:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+#customerDetailsForm textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+    .large-modal {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    #customerDetailsForm .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-actions {
+        justify-content: center;
+    }
+    
+    .modal-actions button {
+        flex: 1;
+        min-width: 100px;
+    }
+}
