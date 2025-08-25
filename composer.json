@@ -1,0 +1,11 @@
+{
+    "require": {
+        "php": "^8.0.0"
+    },
+    "require-dev": {},
+    "scripts": {
+        "post-install-cmd": [
+            "echo 'Installation completed'"
+        ]
+    }
+}
