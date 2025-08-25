@@ -32,6 +32,44 @@ body {
     width: 100%;
 }
 
+/* Mobile improvements */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 50px;
+    }
+    
+    .login-card {
+        padding: 25px;
+        border-radius: 10px;
+        max-width: 100%;
+    }
+    
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .login-header p {
+        font-size: 0.8rem;
+    }
+    
+    .form-group input {
+        padding: 15px 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .auth-btn {
+        padding: 18px;
+        font-size: 1.1rem;
+    }
+    
+    .tab-btn {
+        padding: 15px 10px;
+        font-size: 0.9rem;
+    }
+}
+
 .login-header {
     text-align: center;
     margin-bottom: 30px;
@@ -93,6 +131,31 @@ body {
 .auth-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(30, 60, 114, 0.3);
+}
+
+/* Demo Credentials Helper */
+.demo-credentials {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.demo-credentials p {
+    margin: 5px 0;
+    color: #6c757d;
+}
+
+.demo-credentials code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #495057;
+    font-weight: 600;
 }
 
 /* Dashboard Layout */

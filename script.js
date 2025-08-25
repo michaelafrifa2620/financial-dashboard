@@ -24,14 +24,41 @@ document.addEventListener('DOMContentLoaded', function() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
             
-            // Simple validation (in a real app, this would be server-side)
+            // Simple validation with demo credentials
             if (username && password) {
-                // Store user session
-                localStorage.setItem('currentUser', username);
-                localStorage.setItem('isLoggedIn', 'true');
+                // Check for minimum requirements
+                if (username.length < 3) {
+                    alert('Username must be at least 3 characters long');
+                    return;
+                }
+                if (password.length < 4) {
+                    alert('Password must be at least 4 characters long');
+                    return;
+                }
                 
-                // Redirect to dashboard
-                window.location.href = 'dashboard.html';
+                // Demo credentials - in production, this would be server-side
+                const validCredentials = {
+                    'admin': 'admin123',
+                    'user': 'password',
+                    'demo': 'demo123',
+                    'test': 'test123',
+                    'manager': 'manager123'
+                };
+                
+                // Check if credentials are valid
+                if (validCredentials[username.toLowerCase()] === password) {
+                    // Store user session
+                    localStorage.setItem('currentUser', username);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Success message
+                    alert(`Welcome back, ${username}!`);
+                    
+                    // Redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Invalid username or password. Try:\nUsername: admin, Password: admin123\nOR\nUsername: demo, Password: demo123');
+                }
             } else {
                 alert('Please fill in all fields');
             }
