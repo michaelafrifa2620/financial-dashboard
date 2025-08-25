@@ -91,20 +91,16 @@ document.addEventListener('DOMContentLoaded', function() {
     setDefaultDate();
 });
 
-// Check authentication status
-async function checkAuthStatus() {
-    try {
-        const response = await fetch('api/auth.php');
-        const data = await response.json();
-        
-        if (data.success && data.authenticated) {
-            currentUser = data.user;
-            showDashboard();
-        } else {
-            showAuth();
-        }
-    } catch (error) {
-        console.error('Error checking auth status:', error);
+// Check authentication status (GitHub Pages compatible)
+function checkAuthStatus() {
+    // For GitHub Pages demo, use localStorage
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const currentUsername = localStorage.getItem('currentUser');
+    
+    if (isLoggedIn === 'true' && currentUsername) {
+        currentUser = { username: currentUsername, firstname: currentUsername };
+        showDashboard();
+    } else {
         showAuth();
     }
 }
